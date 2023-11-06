@@ -1,5 +1,5 @@
-import { invalid } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
+import { fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
 type Note = {
 	title: string;
@@ -8,26 +8,26 @@ type Note = {
 
 let notes: Note[] = [
 	{
-		title: "Progressive Enhancement",
-		content: "use:enhance is cool 👍",
-	},
+		title: 'Progressive Enhancement',
+		content: 'use:enhance is cool 👍'
+	}
 ];
 
 export const load: PageServerLoad = () => {
 	return {
-		notes,
+		notes
 	};
 };
 
 export const actions: Actions = {
 	create: async ({ request }) => {
-		console.log("Hit action");
+		console.log('Hit action');
 		const data = Object.fromEntries(await request.formData()) as Note;
 
 		if (data.title.length < 1) {
-			return invalid(400, {
+			return fail(400, {
 				data: data,
-				errorMsg: "❌ Title must not be empty!",
+				errorMsg: '❌ Title must not be empty!'
 			});
 		}
 
@@ -35,7 +35,7 @@ export const actions: Actions = {
 
 		return {
 			data: undefined,
-			errorMsg: undefined,
+			errorMsg: undefined
 		};
 	},
 	delete: async ({ request }) => {
@@ -45,7 +45,7 @@ export const actions: Actions = {
 
 		return {
 			data: undefined,
-			errorMsg: undefined,
+			errorMsg: undefined
 		};
-	},
+	}
 };
